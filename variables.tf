@@ -68,11 +68,6 @@ variable "github_repo_template_repo_name" {
   default     = ""
 }
 
-# variable "tfc_team_token" {
-#   description = "A TFC team token, required to manage the module registry (instead of a personal token)"
-#   type = string
-# }
-
 variable "oauth_token_id" {
   description = "The OAuth token ID of the VCS connection to use by the TFC module registry to retrieve the module from source control"
   type        = string

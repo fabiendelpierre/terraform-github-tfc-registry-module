@@ -13,10 +13,6 @@ resource "github_repository" "blank" {
   license_template   = var.github_repo_license_template
 }
 
-# output "azure_msdn_subscription_repo" {
-#   value = github_repository.azure_msdn_subscription
-# }
-
 resource "github_repository" "templated" {
   count = (var.github_repo_use_template == true ? 1 : 0)
 
@@ -30,14 +26,8 @@ resource "github_repository" "templated" {
   }
 }
 
-# data "tfe_oauth_client" "main" {
-#   oauth_client_id = var.oauth_client_id
-# }
-
 resource "tfe_registry_module" "blank" {
   count = (var.github_repo_use_template == true ? 0 : 1)
-
-  # depends_on = [github_repository.blank]
 
   vcs_repo {
     display_identifier = github_repository.blank[0].full_name
@@ -48,8 +38,6 @@ resource "tfe_registry_module" "blank" {
 
 resource "tfe_registry_module" "templated" {
   count = (var.github_repo_use_template == true ? 1 : 0)
-
-  # depends_on = [github_repository.templated]
 
   vcs_repo {
     display_identifier = github_repository.templated[0].full_name
