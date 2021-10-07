@@ -1,10 +1,6 @@
-# Name of the Terraform module
+# terraform-github-tfc-registry-module
 
-Short description of the module
-
-## What this does
-
-Lorem ipsum
+This module creates a GitHub repository (blank or from a template) and links the repo to a Terraform Cloud private module registry. It's intended to simplify the initial setup steps of a reusable TF module.
 
 ## Inputs and outputs
 
@@ -66,12 +62,23 @@ No modules.
 ## Code example
 
 ```hcl
-terraform {
-  ...
+provider "github" {
+  token = "..."
 }
 
-module "this_module" {
-  source = "./"
-  ...
+provider "tfe" {
+  token = "..."
+}
+
+module "foo" {
+  source  = "github.com/fabiendelpierre/terraform-github-tfc-registry-module"
+
+  github_repo_name        = "terraform-provider-foo"
+  github_repo_description = "A Terraform module"
+
+  github_repo_use_template        = true
+  github_repo_template_owner_name = "owner-name"
+  github_repo_template_repo_name  = "template-repo-name"
+  oauth_token_id                  = data.tfe_oauth_client.oauth_client.oauth_token_id
 }
 ```
